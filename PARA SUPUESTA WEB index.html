@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0f2e">
+
+<!-- Icono (opcional pero recomendado) -->
+<link rel="icon" href="https://i.imgur.com/CEC8OUS.png">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -227,6 +232,15 @@ cargar();
 setInterval(cargar,60000);
 
 </script>
-
+<!-- SERVICE WORKER -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js')
+    .then(reg => console.log("Service Worker registrado"))
+    .catch(err => console.log("Error:", err));
+  });
+}
+</script>
 </body>
 </html>
