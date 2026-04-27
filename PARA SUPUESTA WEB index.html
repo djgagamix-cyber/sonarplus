@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonar+</title>
+
+<style>
+body{margin:0;font-family:'Segoe UI';background:radial-gradient(circle at top,#0a0f2e,#050816);color:white}
+header{text-align:center;padding:20px}
+header img{width:220px;max-width:80%}
+
+.player{margin:15px;padding:20px;border-radius:20px;background:linear-gradient(135deg,#0d1335,#0a1b4d);box-shadow:0 0 30px rgba(0,200,255,.3);text-align:center}
+.live{background:#ff2d55;padding:6px 14px;border-radius:20px;font-size:12px;margin-bottom:10px;display:inline-block}
+.titulo{font-size:26px;font-weight:bold}
+.locutor{color:#00cfff;margin-bottom:10px}
+
+.vu{display:flex;justify-content:center;gap:4px;margin:15px 0}
+.bar{width:6px;height:20px;background:linear-gradient(#00cfff,#8a2be2);animation:vu 1s infinite}
+.bar:nth-child(2){animation-delay:.2s}
+.bar:nth-child(3){animation-delay:.4s}
+.bar:nth-child(4){animation-delay:.6s}
+.bar:nth-child(5){animation-delay:.8s}
+@keyframes vu{0%{height:10px}50%{height:50px}100%{height:10px}}
+
+.controls{display:flex;justify-content:center;align-items:center;gap:15px;margin-top:10px}
+.play{width:60px;height:60px;border-radius:50%;background:linear-gradient(#00cfff,#6a00ff);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer}
+#volumen{width:100px}
+
+.dias{display:flex;gap:10px;padding:10px;justify-content:center;flex-wrap:wrap}
+.dia{padding:10px 15px;border-radius:12px;background:#101a3a;cursor:pointer}
+.activo{background:#00cfff;color:black}
+
+#programacion{padding:10px}
+.item{display:flex;justify-content:space-between;align-items:center;background:#0d1638;padding:15px;border-radius:15px;margin-bottom:10px}
+.item.activo{background:linear-gradient(90deg,#ff004c,#8a2be2)}
+
+.hora{font-weight:bold}
+.info{flex:1;margin-left:15px}
+.nombre{font-size:18px}
+.loc{color:#00cfff;font-size:13px}
+.estado{font-size:12px}
+</style>
+</head>
+
+<body>
+
+<header>
+<img src="https://i.imgur.com/CEC8OUS.png">
+</header>
+
+<div class="player">
+<div class="live">🔴 AHORA EN VIVO</div>
+<div class="titulo" id="titulo">Cargando...</div>
+<div class="locutor" id="locutor"></div>
+
+<div class="vu">
+<div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+</div>
+
+<div class="controls">
+<div onclick="toggleRadio()" class="play" id="btn">▶</div>
+<input type="range" min="0" max="1" step="0.01" value="1" id="volumen">
+</div>
+
+<audio id="radio" preload="auto" playsinline>
+<source src="https://stream.zeno.fm/sctgo3gppjhtv">
+</audio>
+</div>
+
+<div class="dias" id="dias"></div>
+<div id="programacion"></div>
+
+<script>
+
+// PLAYER
+const radio=document.getElementById("radio");
+const btn=document.getElementById("btn");
+const volumen=document.getElementById("volumen");
+
+let playing=false;
+
+async function toggleRadio(){
+if(!playing){await radio.play();btn.innerHTML="⏸";playing=true;}
+else{radio.pause();btn.innerHTML="▶";playing=false;}
+}
+
+volumen.addEventListener("input",()=>{radio.volume=volumen.value;});
+
+// ANTI CORTE
+document.addEventListener("visibilitychange",()=>{
+if(!document.hidden && playing){radio.play();}
+});
+radio.addEventListener("pause",()=>{
+if(playing){setTimeout(()=>radio.play(),1000);}
+});
+setInterval(()=>{if(playing){radio.play();}},15000);
+
+// DIAS
+const dias=["Dom","Lun","Mar","Mie","Jue","Vie","Sab"];
+let diaActual=new Date().getDay();
+const diaReal=new Date().getDay();
+
+// GRILLA
+const grilla={
+
+"Lun":[
+{i:6,f:7,n:"Baladas en Español",l:"Sonar+"},
+{i:7,f:9,n:"Primer Round",l:"Nicolás Yacoy"},
+{i:9,f:10,n:"Café, amigos y música",l:"Mauro Hernandez y Barbie Torres"},
+{i:10,f:12,n:"Portal Argentina",l:"Juanjo Garone y Romina Fasani"},
+{i:12,f:14,n:"Melodías conocidas",l:"Sonar+"},
+{i:14,f:15,n:"Nuestro Rock",l:"Sonar+"},
+{i:15,f:16,n:"Estudio Mega",l:"Matias Toledo"},
+{i:16,f:18,n:"Buenas Noticias",l:"Kily Cortes"},
+{i:18,f:19,n:"Rebeldes",l:"Hector Acosta y Natalia Ciliento"},
+{i:19,f:21,n:"Retro Hits",l:"Sonar+"},
+{i:21,f:23,n:"Playlist Libre",l:"Ramon Sosa"},
+{i:23,f:24,n:"Noche Sonar+",l:"El Nocturno"},
+{i:0,f:6,n:"Trasnoche Sonar+",l:"Sonar+"}
+],
+
+"Mar":[], "Mie":[], "Jue":[], "Vie":[],
+
+"Sab":[
+{i:6,f:7,n:"Folklore Argentino",l:"Colección Sonar+"},
+{i:7,f:9,n:"Aire de Campo",l:"César Tapia"},
+{i:9,f:10,n:"Ecos del Alma",l:"Valeria Mitelman"},
+{i:10,f:12,n:"Portal Argentina (Especial Finde)",l:"Juanjo Garone y Romina Fasani"},
+{i:12,f:14,n:"Música Sonar+",l:"Operador de turno"},
+{i:14,f:16,n:"La Puerta de al Lado",l:"Diego Mait"},
+{i:16,f:18,n:"Versiones",l:"Mili Pouzo"},
+{i:18,f:22,n:"Buenas Noticias",l:"Kily Cortes"},
+{i:22,f:23.5,n:"Ranking Sonar+",l:"Gabriel Retamozo"},
+{i:23.5,f:25.5,n:"Radio Mix",l:"DJ Mono"},
+{i:1.5,f:6,n:"Trasnoche Finde",l:"Sonar+"}
+],
+
+"Dom":[
+{i:6,f:8,n:"América y su Folklore",l:"Nicolás Fernandez"},
+{i:8,f:10,n:"El Programa Nuestro de Cada Día",l:"Miguel Angel Calderon"},
+{i:10,f:12,n:"Viejos Chotos",l:"Música del Arcón"},
+{i:12,f:14,n:"Música de Domingo",l:"Operador de turno"},
+{i:14,f:16,n:"Sentidos",l:"Nicolás Fernandez"},
+{i:16,f:18,n:"Retro Music",l:"Ezequiel Sanchez de Bustamante"},
+{i:18,f:20,n:"Flashback",l:"Mario Dufour"},
+{i:20,f:22,n:"Retro Hits (Finde)",l:"Operador de turno"},
+{i:22,f:25,n:"Noche de Domingo",l:"Operador de turno"},
+{i:1,f:6,n:"Trasnoche Domingo",l:"Sonar+"}
+]
+
+};
+
+["Mar","Mie","Jue","Vie"].forEach(d=>grilla[d]=grilla["Lun"]);
+
+// UI
+function renderDias(){
+const cont=document.getElementById("dias");
+dias.forEach((d,i)=>{
+cont.innerHTML+=`<div class="dia ${i===diaActual?"activo":""}" onclick="cambiarDia(${i})">${d}</div>`;
+});
+}
+
+function cambiarDia(i){
+diaActual=i;
+document.querySelectorAll(".dia").forEach((e,idx)=>{
+e.classList.toggle("activo",idx===i);
+});
+cargar();
+}
+
+// LOGICA EN VIVO
+function cargar(){
+const ahora=new Date();
+const hora=ahora.getHours() + ahora.getMinutes()/60;
+const prog=grilla[dias[diaActual]];
+
+let actual=-1;
+prog.forEach((p,i)=>{
+if((p.i<=hora && hora<p.f)||(p.i>p.f && (hora>=p.i||hora<p.f))){
+actual=i;
+}
+});
+
+let siguiente=(actual+1)%prog.length;
+
+let html="";
+
+prog.forEach((p,i)=>{
+let clase="";
+let estado="";
+
+if(diaActual===diaReal){
+if(i===actual){
+clase="activo";
+estado="🔴 EN EL AIRE";
+document.getElementById("titulo").innerText=p.n;
+document.getElementById("locutor").innerText="con "+p.l;
+}
+else if(i===siguiente){
+estado="⏭️ YA VIENE";
+}
+}else{
+document.getElementById("titulo").innerText="Programación "+dias[diaActual];
+document.getElementById("locutor").innerText="";
+}
+
+let horaTexto=p.i.toString().replace(".5",":30").replace(".92",":55");
+
+html+=`
+<div class="item ${clase}">
+<div class="hora">${horaTexto} HS</div>
+<div class="info">
+<div class="nombre">${p.n}</div>
+<div class="loc">con ${p.l}</div>
+</div>
+<div class="estado">${estado}</div>
+</div>`;
+});
+
+document.getElementById("programacion").innerHTML=html;
+}
+
+// INIT
+renderDias();
+cargar();
+setInterval(cargar,60000);
+
+</script>
+
+</body>
+</html>
