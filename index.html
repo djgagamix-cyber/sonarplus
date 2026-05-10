@@ -304,6 +304,11 @@ const semanaData={
 };
 
 // DIA
+<!-- REEMPLAZÁ SOLO ESTA PARTE EN TU HTML -->
+
+<script>
+
+// DIA
 let d=new Date().getDay();
 
 let hoy=
@@ -317,21 +322,43 @@ let hora=new Date().getHours();
 // ACTUAL
 let actual=prog.length-1;
 
+/* ===== CORRECCION HORARIOS MADRUGADA ===== */
+
 for(let i=0;i<prog.length;i++){
 
 let inicio=prog[i].h;
-let fin=(i<prog.length-1)?prog[i+1].h:24;
 
-if(hora>=inicio && hora<fin){
-actual=i;
+let fin;
+
+if(i < prog.length-1){
+
+fin = prog[i+1].h;
+
+/* SI PASA A MADRUGADA */
+if(fin < inicio){
+fin += 24;
+}
+
+}else{
+
+fin = 24;
+
+}
+
+let horaActual = hora;
+
+if(horaActual < inicio){
+horaActual += 24;
+}
+
+if(horaActual >= inicio && horaActual < fin){
+actual = i;
 break;
 }
 
 }
 
-if(hora<prog[0].h){
-actual=prog.length-1;
-}
+/* ===== FIN CORRECCION ===== */
 
 // INFO PLAYER
 document.getElementById("progActual").innerText=prog[actual].n;
@@ -450,6 +477,3 @@ playing=false;
 }
 
 </script>
-
-</body>
-</html>
