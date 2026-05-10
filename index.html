@@ -25,7 +25,7 @@ margin:10px;
 background:#0d1638;
 }
 
-/* FONDO REAL */
+/* FONDO */
 .player-bg{
 position:absolute;
 top:0;
@@ -40,7 +40,6 @@ opacity:.45;
 z-index:0;
 }
 
-/* OSCURECER */
 .player::after{
 content:"";
 position:absolute;
@@ -57,7 +56,6 @@ position:relative;
 z-index:2;
 }
 
-/* EN VIVO */
 .live{
 background:#ff2d55;
 padding:6px 14px;
@@ -68,7 +66,6 @@ margin-bottom:10px;
 font-weight:bold;
 }
 
-/* TITULOS */
 #progActual{
 margin:5px 0;
 font-size:28px;
@@ -80,7 +77,6 @@ color:#00cfff;
 font-size:14px;
 }
 
-/* PLAY */
 .btn-play{
 margin:15px auto 0;
 width:72px;
@@ -98,10 +94,8 @@ box-shadow:0 0 25px rgba(0,200,255,.5);
 
 .btn-play.stop{
 background:linear-gradient(135deg,#ff004c,#ff2d55);
-box-shadow:0 0 25px rgba(255,0,80,.6);
 }
 
-/* TOP 3 */
 .top3{
 display:flex;
 gap:10px;
@@ -109,7 +103,6 @@ padding:10px;
 overflow-x:auto;
 }
 
-/* RECUADROS */
 .box{
 min-width:160px;
 flex:1;
@@ -120,7 +113,6 @@ position:relative;
 overflow:hidden;
 }
 
-/* FONDO RECUADROS */
 .box::before{
 content:"";
 position:absolute;
@@ -153,7 +145,6 @@ color:#00cfff;
 font-weight:bold;
 }
 
-/* PROGRAMACION */
 .semana{
 padding:15px;
 }
@@ -164,18 +155,15 @@ margin-bottom:20px;
 
 .dia h3{
 color:#00cfff;
-margin-bottom:8px;
 }
 
 .item{
 font-size:13px;
 margin:3px 0;
-opacity:.85;
 padding:4px 6px;
 border-radius:6px;
 }
 
-/* PROGRAMA ACTUAL */
 .activoProg{
 background:rgba(0,200,255,.12);
 color:#00cfff;
@@ -187,7 +175,6 @@ font-weight:bold;
 
 <body>
 
-<!-- PLAYER -->
 <div class="player">
 
 <div class="player-bg" id="playerBg"></div>
@@ -196,9 +183,7 @@ font-weight:bold;
 🔴 AHORA EN VIVO
 </div>
 
-<h2 id="progActual">
-Cargando...
-</h2>
+<h2 id="progActual">Cargando...</h2>
 
 <p id="locActual"></p>
 
@@ -210,15 +195,12 @@ Cargando...
 
 <audio id="radio" src="https://stream.zeno.fm/sctgo3gppjhtv"></audio>
 
-<!-- TOP 3 -->
 <div class="top3" id="top3"></div>
 
-<!-- PROGRAMACION -->
 <div class="semana" id="semana"></div>
 
 <script>
 
-// PROGRAMACION
 const semanaData={
 
 "Lunes a Viernes":[
@@ -241,28 +223,16 @@ const semanaData={
 
 "Sabado":[
 
-"Sabado":[
-
 {h:6,n:"Folklore Argentino",l:"Sonar+",img:"https://picsum.photos/1200/700?14"},
-
 {h:7,n:"Aire de Campo",l:"César Tapia",img:"https://picsum.photos/1200/700?15"},
-
 {h:9,n:"Ecos del Alma",l:"Valeria Mitelman",img:"https://picsum.photos/1200/700?16"},
-
 {h:10,n:"Portal Argentina Finde",l:"Juanjo Garone",img:"https://picsum.photos/1200/700?17"},
-
 {h:12,n:"Música Sonar+",l:"Operador",img:"https://picsum.photos/1200/700?18"},
-
 {h:14,n:"La Puerta de al Lado",l:"Diego Mait",img:"https://picsum.photos/1200/700?19"},
-
 {h:16,n:"Versiones",l:"Mili Pouzo",img:"https://picsum.photos/1200/700?20"},
-
 {h:18,n:"Buenas Noticias",l:"Kily Cortes",img:"https://picsum.photos/1200/700?21"},
-
 {h:22,n:"Ranking Sonar+",l:"Gabriel Retamozo",img:"https://i.imgur.com/OSy7BbG.png"},
-
 {h:23.5,n:"Radio Mix",l:"DJ Mono",img:"https://i.imgur.com/i8DorBr.jpg"},
-
 {h:1.5,n:"Trasnoche Finde",l:"Sonar+",img:"https://picsum.photos/1200/700?24"}
 
 ],
@@ -284,7 +254,6 @@ const semanaData={
 
 };
 
-// DIA
 let d=new Date().getDay();
 
 let hoy=
@@ -293,12 +262,14 @@ d==6?"Sabado":
 "Lunes a Viernes";
 
 let prog=semanaData[hoy];
-let hora=new Date().getHours();
 
-// ACTUAL
-let actual=prog.length-1;
+let ahora=new Date();
 
-/* CORRECCION MADRUGADA */
+let hora=
+ahora.getHours() +
+(ahora.getMinutes()/60);
+
+let actual=0;
 
 for(let i=0;i<prog.length;i++){
 
@@ -308,42 +279,40 @@ let fin;
 
 if(i < prog.length-1){
 
-fin = prog[i+1].h;
+fin=prog[i+1].h;
+
+}else{
+
+fin=30;
+
+}
+
+let hActual=hora;
+
+if(hActual < inicio){
+hActual += 24;
+}
 
 if(fin < inicio){
 fin += 24;
 }
 
-}else{
-
-fin = 24;
-
-}
-
-let horaActual = hora;
-
-if(horaActual < inicio){
-horaActual += 24;
-}
-
-if(horaActual >= inicio && horaActual < fin){
-actual = i;
+if(hActual >= inicio && hActual < fin){
+actual=i;
 break;
 }
 
 }
 
-// INFO PLAYER
-document.getElementById("progActual").innerText=prog[actual].n;
+document.getElementById("progActual").innerText=
+prog[actual].n;
 
 document.getElementById("locActual").innerText=
 "con "+prog[actual].l;
 
-// IMAGEN PLAYER
 document.getElementById("playerBg").style.backgroundImage=
 `url('${prog[actual].img}')`;
 
-// TOP 3
 let topHTML="";
 
 for(let i=0;i<3;i++){
@@ -359,24 +328,16 @@ i==1?"⏭️ YA VIENE":
 
 topHTML+=`
 
-<div class="box ${i==0?'activo':''}" 
+<div class="box ${i==0?'activo':''}"
 style="--cardbg:url('${p.img}')">
 
-<div class="estado">
-${estado}
-</div>
+<div class="estado">${estado}</div>
 
-<div>
-${p.h}:00 HS
-</div>
+<div>${p.h}:00 HS</div>
 
-<div>
-${p.n}
-</div>
+<div>${p.n}</div>
 
-<div>
-${p.l}
-</div>
+<div>${p.l}</div>
 
 </div>
 
@@ -386,7 +347,6 @@ ${p.l}
 
 document.getElementById("top3").innerHTML=topHTML;
 
-// GRILLA
 let semanaHTML="";
 
 for(let dia in semanaData){
@@ -416,7 +376,6 @@ semanaHTML+="</div>";
 
 document.getElementById("semana").innerHTML=semanaHTML;
 
-// AUDIO
 let radio=document.getElementById("radio");
 let btn=document.getElementById("btnPlay");
 let playing=false;
@@ -428,19 +387,15 @@ if(!playing){
 radio.play();
 
 btn.innerHTML="■";
-
 btn.classList.add("stop");
-
 playing=true;
 
 }else{
 
 radio.pause();
-
 radio.currentTime=0;
 
 btn.innerHTML="▶";
-
 btn.classList.remove("stop");
 
 playing=false;
