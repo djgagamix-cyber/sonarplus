@@ -224,29 +224,17 @@ const semanaData={
 "Lunes a Viernes":[
 
 {h:6,n:"Baladas en Español",l:"Sonar+",img:"https://picsum.photos/1200/700?1"},
-
 {h:7,n:"Primer Round",l:"Nicolás Yacoy",img:"https://picsum.photos/1200/700?2"},
-
 {h:9,n:"Café, amigos y música",l:"Mauro Hernandez y Barbie Torres",img:"https://i.imgur.com/DTJmuzd.png"},
-
 {h:10,n:"Portal Argentina",l:"Juanjo Garone y Romina Fasani",img:"https://i.imgur.com/ziTZC8D.jpg"},
-
 {h:12,n:"Melodías conocidas",l:"Sonar+",img:"https://i.imgur.com/825uO29.jpg"},
-
 {h:14,n:"Nuestro Rock",l:"Sonar+",img:"https://picsum.photos/1200/700?6"},
-
 {h:15,n:"Estudio Mega",l:"Matías Toledo",img:"https://picsum.photos/1200/700?7"},
-
 {h:16,n:"Buenas Noticias",l:"Kily Cortes",img:"https://picsum.photos/1200/700?8"},
-
 {h:18,n:"Rebeldes",l:"Hector Acosta y Natalia Ciliento",img:"https://picsum.photos/1200/700?9"},
-
 {h:19,n:"Retro Hits",l:"Sonar+",img:"https://picsum.photos/1200/700?10"},
-
 {h:21,n:"Playlist Libre",l:"Ramón Sosa",img:"https://picsum.photos/1200/700?11"},
-
 {h:23,n:"Noche Sonar+",l:"El Nocturno",img:"https://picsum.photos/1200/700?12"},
-
 {h:1,n:"Trasnoche",l:"Sonar+",img:"https://picsum.photos/1200/700?13"}
 
 ],
@@ -254,25 +242,15 @@ const semanaData={
 "Sabado":[
 
 {h:6,n:"Folklore Argentino",l:"Sonar+",img:"https://picsum.photos/1200/700?14"},
-
 {h:7,n:"Aire de Campo",l:"César Tapia",img:"https://picsum.photos/1200/700?15"},
-
 {h:9,n:"Ecos del Alma",l:"Valeria Mitelman",img:"https://picsum.photos/1200/700?16"},
-
 {h:10,n:"Portal Argentina Finde",l:"Juanjo Garone",img:"https://picsum.photos/1200/700?17"},
-
 {h:12,n:"Música Sonar+",l:"Operador",img:"https://picsum.photos/1200/700?18"},
-
 {h:14,n:"La Puerta de al Lado",l:"Diego Mait",img:"https://picsum.photos/1200/700?19"},
-
 {h:16,n:"Versiones",l:"Mili Pouzo",img:"https://picsum.photos/1200/700?20"},
-
 {h:18,n:"Buenas Noticias",l:"Kily Cortes",img:"https://picsum.photos/1200/700?21"},
-
 {h:22,n:"Ranking Sonar+",l:"Gabriel Retamozo",img:"https://i.imgur.com/OSy7BbG.png"},
-
 {h:23,n:"Radio Mix",l:"DJ Mono",img:"https://i.imgur.com/i8DorBr.jpg"},
-
 {h:1,n:"Trasnoche Finde",l:"Sonar+",img:"https://picsum.photos/1200/700?24"}
 
 ],
@@ -280,33 +258,19 @@ const semanaData={
 "Domingo":[
 
 {h:6,n:"América y su Folklore",l:"Nicolás Fernandez",img:"https://picsum.photos/1200/700?25"},
-
 {h:8,n:"Nuestro Día",l:"Miguel Calderón",img:"https://picsum.photos/1200/700?26"},
-
 {h:10,n:"Viejos Chotos",l:"El Arcón",img:"https://picsum.photos/1200/700?27"},
-
 {h:12,n:"Música Domingo",l:"Operador",img:"https://picsum.photos/1200/700?28"},
-
 {h:14,n:"Sentidos",l:"Nicolás Fernandez",img:"https://picsum.photos/1200/700?29"},
-
 {h:16,n:"Retro Music",l:"Ezequiel Sanchez",img:"https://picsum.photos/1200/700?30"},
-
 {h:18,n:"Flashback",l:"Mario Dufour",img:"https://picsum.photos/1200/700?31"},
-
 {h:20,n:"Retro Hits Finde",l:"Operador",img:"https://picsum.photos/1200/700?32"},
-
 {h:22,n:"Noche de Domingo",l:"Operador",img:"https://picsum.photos/1200/700?33"},
-
 {h:1,n:"Trasnoche Domingo",l:"Sonar+",img:"https://picsum.photos/1200/700?34"}
 
 ]
 
 };
-
-// DIA
-<!-- REEMPLAZÁ SOLO ESTA PARTE EN TU HTML -->
-
-<script>
 
 // DIA
 let d=new Date().getDay();
@@ -322,7 +286,7 @@ let hora=new Date().getHours();
 // ACTUAL
 let actual=prog.length-1;
 
-/* ===== CORRECCION HORARIOS MADRUGADA ===== */
+/* CORRECCION MADRUGADA */
 
 for(let i=0;i<prog.length;i++){
 
@@ -334,7 +298,6 @@ if(i < prog.length-1){
 
 fin = prog[i+1].h;
 
-/* SI PASA A MADRUGADA */
 if(fin < inicio){
 fin += 24;
 }
@@ -357,8 +320,6 @@ break;
 }
 
 }
-
-/* ===== FIN CORRECCION ===== */
 
 // INFO PLAYER
 document.getElementById("progActual").innerText=prog[actual].n;
@@ -477,3 +438,6 @@ playing=false;
 }
 
 </script>
+
+</body>
+</html>
