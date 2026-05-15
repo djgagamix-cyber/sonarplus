@@ -3,18 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sonar+</title>
+<title>Sonar+ Radio</title>
 
 <style>
 
 body{
 margin:0;
-font-family:'Segoe UI';
+font-family:'Segoe UI',sans-serif;
 background:#050816;
 color:white;
+overflow-x:hidden;
 }
 
 /* PLAYER */
+
 .player{
 position:relative;
 text-align:center;
@@ -22,31 +24,31 @@ padding:35px 15px;
 overflow:hidden;
 border-radius:20px;
 margin:10px;
-background:#0d1638;
+background:#111936;
 }
 
-/* FONDO */
-.player-bg{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background-size:cover;
-background-position:center;
-filter:blur(14px);
-transform:scale(1.1);
-opacity:.45;
-z-index:0;
-}
+/* FONDO PLAYER */
 
-.player::after{
+.player::before{
 content:"";
 position:absolute;
 top:0;
 left:0;
 width:100%;
 height:100%;
+background-image:var(--bg);
+background-size:cover;
+background-position:center;
+filter:blur(7px);
+transform:scale(1.05);
+opacity:.42;
+z-index:0;
+}
+
+.player::after{
+content:"";
+position:absolute;
+inset:0;
 background:rgba(5,8,22,.72);
 z-index:1;
 }
@@ -55,6 +57,28 @@ z-index:1;
 position:relative;
 z-index:2;
 }
+
+/* LOGO */
+
+.logo{
+width:95px;
+margin:0 auto 10px;
+display:block;
+}
+
+/* TEMPERATURA */
+
+.weather{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:8px;
+font-size:14px;
+margin-bottom:12px;
+color:#00d5ff;
+}
+
+/* EN VIVO */
 
 .live{
 background:#ff2d55;
@@ -66,35 +90,72 @@ margin-bottom:10px;
 font-weight:bold;
 }
 
+/* TITULOS */
+
 #progActual{
 margin:5px 0;
-font-size:28px;
+font-size:30px;
 }
 
 #locActual{
 margin-top:0;
-color:#00cfff;
+color:#00d5ff;
 font-size:14px;
 }
 
+/* PLAY */
+
 .btn-play{
-margin:15px auto 0;
-width:72px;
-height:72px;
+margin:20px auto 10px;
+width:78px;
+height:78px;
 border-radius:50%;
-background:linear-gradient(135deg,#00cfff,#6a00ff);
+background:linear-gradient(135deg,#00d5ff,#6f00ff);
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:28px;
+font-size:32px;
 cursor:pointer;
 transition:.3s;
-box-shadow:0 0 25px rgba(0,200,255,.5);
+box-shadow:0 0 30px rgba(0,213,255,.5);
 }
 
 .btn-play.stop{
-background:linear-gradient(135deg,#ff004c,#ff2d55);
+background:linear-gradient(135deg,#ff0048,#ff2d55);
 }
+
+/* VUMETRO */
+
+.vu{
+display:flex;
+justify-content:center;
+align-items:flex-end;
+gap:4px;
+height:40px;
+margin-top:10px;
+}
+
+.vu span{
+width:5px;
+height:10px;
+border-radius:20px;
+background:#00d5ff;
+animation:vu 1s infinite ease-in-out;
+}
+
+.vu span:nth-child(2){animation-delay:.1s}
+.vu span:nth-child(3){animation-delay:.2s}
+.vu span:nth-child(4){animation-delay:.3s}
+.vu span:nth-child(5){animation-delay:.4s}
+.vu span:nth-child(6){animation-delay:.5s}
+
+@keyframes vu{
+0%{height:8px}
+50%{height:35px}
+100%{height:8px}
+}
+
+/* TOP */
 
 .top3{
 display:flex;
@@ -104,10 +165,9 @@ overflow-x:auto;
 }
 
 .box{
-min-width:160px;
-flex:1;
-background:#0d1638;
-border-radius:16px;
+min-width:170px;
+background:#101935;
+border-radius:18px;
 padding:15px;
 position:relative;
 overflow:hidden;
@@ -116,17 +176,13 @@ overflow:hidden;
 .box::before{
 content:"";
 position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
+inset:0;
 background-image:var(--cardbg);
 background-size:cover;
 background-position:center;
-filter:blur(4px);
-transform:scale(1.1);
-opacity:.45;
-z-index:0;
+filter:blur(2px);
+transform:scale(1.05);
+opacity:.35;
 }
 
 .box *{
@@ -134,39 +190,47 @@ position:relative;
 z-index:2;
 }
 
+.estado{
+font-size:11px;
+margin-bottom:8px;
+color:#00d5ff;
+font-weight:bold;
+}
+
 .activo{
 outline:2px solid #ff2d55;
 }
 
-.estado{
-font-size:11px;
-margin-bottom:6px;
-color:#00cfff;
-font-weight:bold;
-}
+/* PROGRAMACION */
 
 .semana{
-padding:15px;
+padding:10px;
 }
 
 .dia{
 margin-bottom:20px;
+background:#0f1731;
+border-radius:16px;
+padding:15px;
 }
 
 .dia h3{
-color:#00cfff;
+margin-top:0;
+color:#00d5ff;
+font-size:20px;
 }
 
 .item{
-font-size:13px;
-margin:3px 0;
-padding:4px 6px;
-border-radius:6px;
+padding:9px;
+border-radius:8px;
+font-size:14px;
+margin-bottom:4px;
+background:rgba(255,255,255,.03);
 }
 
 .activoProg{
-background:rgba(0,200,255,.12);
-color:#00cfff;
+background:rgba(0,213,255,.15);
+color:#00d5ff;
 font-weight:bold;
 }
 
@@ -177,18 +241,33 @@ font-weight:bold;
 
 <div class="player">
 
-<div class="player-bg" id="playerBg"></div>
+<img class="logo" src="https://i.imgur.com/CEC8OUS.png">
+
+<div class="weather" id="weather">
+📍 Detectando ciudad...
+</div>
 
 <div class="live">
 🔴 AHORA EN VIVO
 </div>
 
-<h2 id="progActual">Cargando...</h2>
+<h2 id="progActual">
+Cargando...
+</h2>
 
 <p id="locActual"></p>
 
 <div class="btn-play" onclick="toggleRadio()" id="btnPlay">
 ▶
+</div>
+
+<div class="vu">
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
 </div>
 
 </div>
@@ -201,58 +280,105 @@ font-weight:bold;
 
 <script>
 
+/* CIUDAD Y TEMPERATURA */
+
+if(navigator.geolocation){
+
+navigator.geolocation.getCurrentPosition(async(pos)=>{
+
+let lat=pos.coords.latitude;
+let lon=pos.coords.longitude;
+
+try{
+
+let clima=await fetch(
+`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+);
+
+let data=await clima.json();
+
+let city=await fetch(
+`https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}`
+);
+
+let cityData=await city.json();
+
+let ciudad=
+cityData.address.city ||
+cityData.address.town ||
+cityData.address.village ||
+"Tu ciudad";
+
+document.getElementById("weather").innerHTML=
+`📍 ${ciudad} · 🌡 ${Math.round(data.current_weather.temperature)}°C`;
+
+}catch{
+
+document.getElementById("weather").innerHTML=
+"📍 Ciudad no disponible";
+
+}
+
+});
+
+}
+
+/* PROGRAMACION */
+
 const semanaData={
 
 "Lunes a Viernes":[
 
-{h:6,n:"Baladas en Español",l:"Sonar+",img:"https://picsum.photos/1200/700?1"},
-{h:7,n:"Primer Round",l:"Nicolás Yacoy",img:"https://picsum.photos/1200/700?2"},
-{h:9,n:"Café, amigos y música",l:"Mauro Hernandez y Barbie Torres",img:"https://i.imgur.com/DTJmuzd.png"},
-{h:10,n:"Portal Argentina",l:"Juanjo Garone y Romina Fasani",img:"https://i.imgur.com/ziTZC8D.jpg"},
+{h:6,n:"Baladas en Español",l:"Sonar+",img:"https://i.imgur.com/WgLW2TJ.png"},
+{h:7,n:"Primer Round",l:"Nicolás Yacoy",img:"https://i.imgur.com/Yd76L2Y.png"},
+{h:9,n:"Café, amigos y música",l:"Mauro Hernandez y Barbie Torres",img:"https://i.imgur.com/pTxaWbO.png"},
+{h:10,n:"Portal Argentina",l:"Juanjo Garone y Romina Fasani",img:"https://i.imgur.com/c0JBA74.jpg"},
 {h:12,n:"Melodías conocidas",l:"Sonar+",img:"https://i.imgur.com/825uO29.jpg"},
-{h:14,n:"Nuestro Rock",l:"Sonar+",img:"https://picsum.photos/1200/700?6"},
-{h:15,n:"Estudio Mega",l:"Matías Toledo",img:"https://picsum.photos/1200/700?7"},
-{h:16,n:"Buenas Noticias",l:"Kily Cortes",img:"https://picsum.photos/1200/700?8"},
-{h:18,n:"Rebeldes",l:"Hector Acosta y Natalia Ciliento",img:"https://picsum.photos/1200/700?9"},
-{h:19,n:"Retro Hits",l:"Sonar+",img:"https://picsum.photos/1200/700?10"},
-{h:21,n:"Playlist Libre",l:"Ramón Sosa",img:"https://picsum.photos/1200/700?11"},
-{h:23,n:"Noche Sonar+",l:"El Nocturno",img:"https://picsum.photos/1200/700?12"},
-{h:1,n:"Trasnoche",l:"Sonar+",img:"https://picsum.photos/1200/700?13"}
+{h:14,n:"Nuestro Rock",l:"Sonar+",img:"https://i.imgur.com/nfBuAOg.png"},
+{h:15,n:"Estudio Mega",l:"Matías Toledo",img:"https://i.imgur.com/gWBATYu.png"},
+{h:16,n:"Buenas Noticias",l:"Kily Cortes",img:"https://i.imgur.com/PpQ2DvJ.png"},
+{h:18,n:"Rebeldes",l:"Hector Acosta y Natalia Ciliento",img:"https://i.imgur.com/bJOB4OT.jpg"},
+{h:19,n:"Retro Hits",l:"Sonar+",img:"https://i.imgur.com/Xto2v6w.png"},
+{h:21,n:"Playlist Libre",l:"Ramón Sosa",img:"https://i.imgur.com/WPp6sRd.png"},
+{h:23,n:"Noche Sonar+",l:"El Nocturno",img:"https://i.imgur.com/Y38uJ8d.png"},
+{h:1,n:"Trasnoche",l:"Sonar+",img:"https://i.imgur.com/Ewf4K3q.png"}
 
 ],
 
 "Sabado":[
 
-{h:6,n:"Folklore Argentino",l:"Sonar+",img:"https://picsum.photos/1200/700?14"},
-{h:7,n:"Aire de Campo",l:"César Tapia",img:"https://picsum.photos/1200/700?15"},
-{h:9,n:"Ecos del Alma",l:"Valeria Mitelman",img:"https://picsum.photos/1200/700?16"},
-{h:10,n:"Portal Argentina Finde",l:"Juanjo Garone",img:"https://picsum.photos/1200/700?17"},
-{h:12,n:"Música Sonar+",l:"Operador",img:"https://picsum.photos/1200/700?18"},
-{h:14,n:"La Puerta de al Lado",l:"Diego Mait",img:"https://picsum.photos/1200/700?19"},
-{h:16,n:"Versiones",l:"Mili Pouzo",img:"https://picsum.photos/1200/700?20"},
-{h:18,n:"Buenas Noticias",l:"Kily Cortes",img:"https://picsum.photos/1200/700?21"},
-{h:22,n:"Ranking Sonar+",l:"Gabriel Retamozo",img:"https://i.imgur.com/OSy7BbG.png"},
-{h:23.5,n:"Radio Mix",l:"DJ Mono",img:"https://i.imgur.com/i8DorBr.jpg"},
-{h:1.5,n:"Trasnoche Finde",l:"Sonar+",img:"https://picsum.photos/1200/700?24"}
+{h:6,n:"Folklore Argentino",l:"Sonar+"},
+{h:7,n:"Aire de Campo",l:"César Tapia"},
+{h:9,n:"Ecos del Alma",l:"Valeria Mitelman"},
+{h:10,n:"Portal Argentina Finde",l:"Juanjo Garone"},
+{h:12,n:"Música Sonar+",l:"Operador"},
+{h:14,n:"La Puerta de al Lado",l:"Diego Mait"},
+{h:16,n:"Versiones",l:"Mili Pouzo"},
+{h:18,n:"Buenas Noticias",l:"Kily Cortes"},
+{h:22,n:"Ranking Sonar+",l:"Gabriel Retamozo"},
+{h:23.5,n:"Radio Mix",l:"DJ Mono"},
+{h:1.5,n:"Trasnoche Finde",l:"Sonar+"}
 
 ],
 
 "Domingo":[
 
-{h:6,n:"América y su Folklore",l:"Nicolás Fernandez",img:"https://picsum.photos/1200/700?25"},
-{h:8,n:"Nuestro Día",l:"Miguel Calderón",img:"https://picsum.photos/1200/700?26"},
-{h:10,n:"Viejos Chotos",l:"El Arcón",img:"https://picsum.photos/1200/700?27"},
-{h:12,n:"Música Domingo",l:"Operador",img:"https://picsum.photos/1200/700?28"},
-{h:14,n:"Sentidos",l:"Nicolás Fernandez",img:"https://picsum.photos/1200/700?29"},
-{h:16,n:"Retro Music",l:"Ezequiel Sanchez",img:"https://picsum.photos/1200/700?30"},
-{h:18,n:"Flashback",l:"Mario Dufour",img:"https://picsum.photos/1200/700?31"},
-{h:20,n:"Retro Hits Finde",l:"Operador",img:"https://picsum.photos/1200/700?32"},
-{h:22,n:"Noche de Domingo",l:"Operador",img:"https://picsum.photos/1200/700?33"},
-{h:1,n:"Trasnoche Domingo",l:"Sonar+",img:"https://picsum.photos/1200/700?34"}
+{h:6,n:"América y su Folklore",l:"Nicolás Fernandez"},
+{h:8,n:"Nuestro Día",l:"Miguel Calderón"},
+{h:10,n:"Viejos Chotos",l:"El Arcón"},
+{h:12,n:"Música Domingo",l:"Operador"},
+{h:14,n:"Sentidos",l:"Nicolás Fernandez"},
+{h:16,n:"Retro Music",l:"Ezequiel Sanchez"},
+{h:18,n:"Flashback",l:"Mario Dufour"},
+{h:20,n:"Retro Hits Finde",l:"Operador"},
+{h:22,n:"Noche de Domingo",l:"Operador"},
+{h:1,n:"Trasnoche Domingo",l:"Sonar+"}
 
 ]
 
 };
+
+/* DIA */
 
 let d=new Date().getDay();
 
@@ -269,40 +395,37 @@ let hora=
 ahora.getHours() +
 (ahora.getMinutes()/60);
 
+/* ACTUAL */
+
 let actual=0;
 
 for(let i=0;i<prog.length;i++){
 
 let inicio=prog[i].h;
 
-let fin;
+let fin=
+(i<prog.length-1)
+? prog[i+1].h
+: 30;
 
-if(i < prog.length-1){
+let horaActual=hora;
 
-fin=prog[i+1].h;
-
-}else{
-
-fin=30;
-
-}
-
-let hActual=hora;
-
-if(hActual < inicio){
-hActual += 24;
+if(horaActual < inicio){
+horaActual += 24;
 }
 
 if(fin < inicio){
 fin += 24;
 }
 
-if(hActual >= inicio && hActual < fin){
+if(horaActual >= inicio && horaActual < fin){
 actual=i;
 break;
 }
 
 }
+
+/* PLAYER */
 
 document.getElementById("progActual").innerText=
 prog[actual].n;
@@ -310,34 +433,52 @@ prog[actual].n;
 document.getElementById("locActual").innerText=
 "con "+prog[actual].l;
 
-document.getElementById("playerBg").style.backgroundImage=
-`url('${prog[actual].img}')`;
+document.querySelector(".player")
+.style.setProperty(
+"--bg",
+`url('${prog[actual].img || "https://i.imgur.com/CEC8OUS.png"}')`
+);
+
+/* TOP */
 
 let topHTML="";
 
 for(let i=0;i<3;i++){
 
-let p=prog[actual+i];
+let idx=(actual+i)%prog.length;
 
-if(!p) continue;
+let p=prog[idx];
 
 let estado=
 i==0?"🔴 EN VIVO":
 i==1?"⏭️ YA VIENE":
-"🕓 LUEGO";
+"🕓 DESPUÉS";
+
+let horario=
+p.h % 1 !==0
+? (p.h===23.5?"23:30 HS":"01:30 HS")
+: `${p.h}:00 HS`;
 
 topHTML+=`
 
 <div class="box ${i==0?'activo':''}"
-style="--cardbg:url('${p.img}')">
+style="--cardbg:url('${p.img || "https://i.imgur.com/CEC8OUS.png"}')">
 
-<div class="estado">${estado}</div>
+<div class="estado">
+${estado}
+</div>
 
-<div>${p.h}:00 HS</div>
+<div>
+${horario}
+</div>
 
-<div>${p.n}</div>
+<div>
+${p.n}
+</div>
 
-<div>${p.l}</div>
+<div>
+${p.l}
+</div>
 
 </div>
 
@@ -346,6 +487,8 @@ style="--cardbg:url('${p.img}')">
 }
 
 document.getElementById("top3").innerHTML=topHTML;
+
+/* PROGRAMACION */
 
 let semanaHTML="";
 
@@ -362,9 +505,14 @@ let activo=
 (dia===hoy && i===actual)
 ?"activoProg":"";
 
+let horario=
+p.h % 1 !==0
+? (p.h===23.5?"23:30 HS":"01:30 HS")
+: `${p.h}:00 HS`;
+
 semanaHTML+=`
 <div class="item ${activo}">
-${p.h}:00 HS - ${p.n}
+${horario} - ${p.n} - ${p.l}
 </div>
 `;
 
@@ -376,8 +524,11 @@ semanaHTML+="</div>";
 
 document.getElementById("semana").innerHTML=semanaHTML;
 
+/* AUDIO */
+
 let radio=document.getElementById("radio");
 let btn=document.getElementById("btnPlay");
+
 let playing=false;
 
 function toggleRadio(){
@@ -387,15 +538,19 @@ if(!playing){
 radio.play();
 
 btn.innerHTML="■";
+
 btn.classList.add("stop");
+
 playing=true;
 
 }else{
 
 radio.pause();
+
 radio.currentTime=0;
 
 btn.innerHTML="▶";
+
 btn.classList.remove("stop");
 
 playing=false;
@@ -405,6 +560,9 @@ playing=false;
 }
 
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
