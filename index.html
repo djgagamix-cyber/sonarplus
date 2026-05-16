@@ -347,19 +347,30 @@ const semanaData={
 
 "Sabado":[
 
-{h:6,n:"Folklore Argentino",l:"Sonar+"},
-{h:7,n:"Aire de Campo",l:"César Tapia"},
-{h:9,n:"Ecos del Alma",l:"Valeria Mitelman"},
-{h:10,n:"Portal Argentina Finde",l:"Juanjo Garone"},
-{h:12,n:"Música Sonar+",l:"Operador"},
-{h:14,n:"La Puerta de al Lado",l:"Diego Mait"},
-{h:16,n:"Versiones",l:"Mili Pouzo"},
-{h:18,n:"Buenas Noticias",l:"Kily Cortes"},
-{h:22,n:"Ranking Sonar+",l:"Gabriel Retamozo"},
-{h:23.5,n:"Radio Mix",l:"DJ Mono"},
-{h:1.5,n:"Trasnoche Finde",l:"Sonar+"}
+{h:6,n:"Folklore Argentino",l:"Sonar+",img:"https://i.imgur.com/oDCxWvh.png"},
+
+{h:7,n:"Aire de Campo",l:"César Tapia",img:"https://iproxy.tvpublica.com.ar/insecure/rs:fit:0:0/plain/https://cdn.radionacional.com.ar/wp-content/uploads/2024/12/campo-retenciones.jpg"},
+
+{h:9,n:"Ecos del Alma",l:"Valeria Mitelman",img:"https://i.imgur.com/wdWp1WC.png"},
+
+{h:10,n:"Portal Argentina Finde",l:"Juanjo Garone",img:"https://i.imgur.com/c0JBA74.jpg"},
+
+{h:12,n:"Música Sonar+",l:"Operador",img:"https://i.imgur.com/d7nkNNs.png"},
+
+{h:14,n:"La Puerta de al Lado",l:"Diego Mait",img:"https://public-rf-upload.minhawebradio.net/250778/broadcaster/f4cf51e03251c936d02faa3ed861c5ae.jpgg"},
+
+{h:16,n:"Versiones",l:"Mili Pouzo",img:"https://i.imgur.com/gWBATYu.png"},
+
+{h:18,n:"Buenas Noticias",l:"Kily Cortes",img:"https://i.imgur.com/PpQ2DvJ.png"},
+
+{h:22,n:"Ranking Sonar+",l:"Gabriel Retamozo",img:"https://i.imgur.com/OSy7BbG.png"},
+
+{h:23.5,n:"Radio Mix",l:"DJ Mono",img:"https://i.imgur.com/i8DorBr.jpg"},
+
+{h:25.5,n:"Trasnoche Finde",l:"Sonar+",img:"https://i.imgur.com/Ewf4K3q.png"}
 
 ],
+
 
 "Domingo":[
 
@@ -388,20 +399,46 @@ ahora.getHours() +
 
 let d=new Date().getDay();
 
-/* SI ES MADRUGADA
-ANTES DE LAS 6AM
-MANTIENE EL DIA ANTERIOR */
+/* CORRECCION REAL */
 
-if(hora < 6){
+let hoy;
 
-d = d===0 ? 6 : d-1;
+if(d==6){ // SABADO
+
+if(hora >=0 && hora < 1.5){
+
+hoy="Sabado";
+
+}else if(hora >=1.5 && hora <6){
+
+hoy="Sabado";
+
+}else{
+
+hoy="Sabado";
 
 }
 
-let hoy=
+}else if(d==5){ // VIERNES
+
+if(hora >=0 && hora <6){
+
+hoy="Lunes a Viernes";
+
+}else{
+
+hoy="Lunes a Viernes";
+
+}
+
+}else{
+
+hoy=
 d==0?"Domingo":
 d==6?"Sabado":
 "Lunes a Viernes";
+
+}
 
 let prog=semanaData[hoy];
 
