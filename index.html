@@ -292,7 +292,7 @@ let lon=pos.coords.longitude;
 try{
 
 let clima=await fetch(
-`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}¤t_weather=true`
 );
 
 let data=await clima.json();
@@ -380,7 +380,23 @@ const semanaData={
 
 /* DIA */
 
+let ahora=new Date();
+
+let hora=
+ahora.getHours() +
+(ahora.getMinutes()/60);
+
 let d=new Date().getDay();
+
+/* SI ES MADRUGADA
+ANTES DE LAS 6AM
+MANTIENE EL DIA ANTERIOR */
+
+if(hora < 6){
+
+d = d===0 ? 6 : d-1;
+
+}
 
 let hoy=
 d==0?"Domingo":
@@ -388,12 +404,6 @@ d==6?"Sabado":
 "Lunes a Viernes";
 
 let prog=semanaData[hoy];
-
-let ahora=new Date();
-
-let hora=
-ahora.getHours() +
-(ahora.getMinutes()/60);
 
 /* ACTUAL */
 
@@ -560,9 +570,6 @@ playing=false;
 }
 
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
